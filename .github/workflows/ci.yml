@@ -64,3 +64,5 @@ jobs:
       - run: cd apps/mobile && npx --yes expo-doctor
       - name: Bundle Android JavaScript and assets
         run: cd apps/mobile && npx --yes expo export --platform android --output-dir /tmp/unifrendly-android-export
+      - name: Bundle iOS JavaScript and assets
+        run: cd apps/mobile && npx --yes expo export --platform ios --output-dir /tmp/unifrendly-ios-export
