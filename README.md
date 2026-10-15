@@ -30,7 +30,7 @@ External infrastructure must be provisioned and supplied: a PostgreSQL database,
 Requirements: Node.js 22 LTS, npm, and PostgreSQL 15+. Run `npm install` on a networked machine first; commit the generated root `package-lock.json` before a release to lock transitive dependency versions.
 
 1. Copy `.env.example` to `.env` at the repository root or export its values in your shell (the dev commands load the root `.env`). Use a unique random `JWT_SECRET` of at least 32 bytes. Set `DATABASE_URL` to a dedicated database.
-2. Create the database and apply migrations: `npm install`, then `npm run migrate` from the repository root (or `npm --workspace apps/api run migrate`).
+2. Install dependencies with `npm install`. Apply migrations using the dedicated `unifrendly_migrator` database URL (set it as `DATABASE_URL` only for `npm run migrate`). Do not run migrations as the restricted runtime role. After migrations, set `DATABASE_URL` to the `unifrendly_app` connection string before starting the API or worker. Keep these credentials separate in your secret manager.
 3. Set `DEV_ADMIN_PASSWORD` to a development-only password of 16+ characters and run `npm --workspace apps/api run seed:dev` with `NODE_ENV=development`. This seeds only `northstar-college` and `admin@northstar.example`; never run development seeds in production.
 4. Run `npm run api:dev` in one terminal and `npm --workspace apps/api run worker` in another.
 5. Set `EXPO_PUBLIC_API_URL=http://YOUR-LAN-IP:8080/v1` in the mobile app environment. On a physical device, `localhost` points to the phone, not your computer.
