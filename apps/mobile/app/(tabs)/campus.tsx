@@ -126,7 +126,7 @@ export default function CampusScreen() {
     <SectionTitle action={<AppButton title="Refresh" variant="ghost" onPress={() => void load()} />}>{mode === 'events' ? 'Upcoming events' : mode === 'canteen' ? 'Canteen information' : mode === 'lost_found' ? 'Lost and found' : 'Student marketplace'}</SectionTitle>
     {!loading && mode === 'events' && events.length === 0 ? <EmptyState title="Nothing scheduled yet" text="Be the first to bring people together on campus." /> : null}
     {mode === 'events' ? events.map((event) => <Card key={event.id}>
-      <Text style={{ color: colors.text, fontSize: 17, fontWeight: '850' }}>{event.title}</Text>
+      <Text style={{ color: colors.text, fontSize: 17, fontWeight: '800' }}>{event.title}</Text>
       <Text style={{ color: colors.primary, fontWeight: '700' }}>{new Date(event.starts_at).toLocaleString()}</Text>
       {event.location_label ? <Text style={{ color: colors.muted }}>⌖ {event.location_label}</Text> : null}
       {event.club_name ? <Text style={{ color: colors.muted }}>{event.club_name}</Text> : null}
