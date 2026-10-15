@@ -33,7 +33,7 @@ export async function authRoutes(app: FastifyInstance) {
     const invitationHash = hashToken(body.invitationToken);
     const outcome = await transaction(async (client) => {
       const inv = await client.query(
-        `SELECT v.*, i.status AS institution_status FROM institution_invitations v
+        `SELECT v.*, i.status AS institution_status, i.config AS institution_config FROM institution_invitations v
          JOIN institutions i ON i.id = v.institution_id
          WHERE i.slug = $1 AND lower(v.email) = $2 AND v.token_hash = $3
            AND v.used_at IS NULL AND v.expires_at > now() FOR UPDATE OF v`,
@@ -60,7 +60,7 @@ export async function authRoutes(app: FastifyInstance) {
         [membership.rows[0].id, membership.rows[0].institution_id, body.department ?? null, body.programme ?? null, body.batchYear ?? null]
       );
       await client.query('INSERT INTO user_settings (membership_id, institution_id) VALUES ($1, $2)', [membership.rows[0].id, membership.rows[0].institution_id]);
-      const institutionConfig = institution.rows[0].config as Record<string, unknown>;
+      const institutionConfig = invitation.institution_config as Record<string, unknown>;
       const quotaBytes = readConfigNumber(institutionConfig, 'studentQuotaBytes', 52_428_800, 0, 1_073_741_824);
       await client.query('INSERT INTO media_usage (membership_id, institution_id, quota_bytes) VALUES ($1, $2, $3)', [membership.rows[0].id, membership.rows[0].institution_id, quotaBytes]);
       await client.query('UPDATE institution_invitations SET used_at = now() WHERE id = $1', [invitation.id]);
