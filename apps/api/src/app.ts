@@ -48,7 +48,8 @@ export async function buildApp(): Promise<FastifyInstance> {
     const status = typeof (error as { statusCode?: unknown }).statusCode === 'number' ? (error as { statusCode: number }).statusCode : 500;
     if (status === 429) return reply.code(429).send({ error: { code: 'RATE_LIMITED', message: 'Too many requests. Please try again shortly.' } });
     if (status >= 500) request.log.error({ err: error }, 'Unhandled API error');
-    return reply.code(status >= 400 && status < 500 ? status : 500).send({ error: { code: status >= 500 ? 'INTERNAL_ERROR' : 'REQUEST_FAILED', message: status >= 500 ? 'An unexpected error occurred' : error.message } });
+    const safeMessage = error instanceof Error ? error.message : 'Request failed';
+    return reply.code(status >= 400 && status < 500 ? status : 500).send({ error: { code: status >= 500 ? 'INTERNAL_ERROR' : 'REQUEST_FAILED', message: status >= 500 ? 'An unexpected error occurred' : safeMessage } });
   });
   return app;
 }
