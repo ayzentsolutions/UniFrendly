@@ -1,0 +1,34 @@
+name: Bootstrap UniFrendly source
+on:
+  push:
+    branches: [main]
+    paths:
+      - "bootstrap/unifrendly-source.tar.xz.b64"
+permissions:
+  contents: write
+jobs:
+  unpack-source:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Unpack full source and remove bootstrap artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          base64 --decode bootstrap/unifrendly-source.tar.xz.b64 > /tmp/unifrendly-source.tar.xz
+          tar -xJf /tmp/unifrendly-source.tar.xz -C .
+          rm -rf bootstrap
+          rm -f .github/workflows/unpack-bootstrap.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No extracted source changes detected."
+            exit 1
+          fi
+          git commit -m "feat: publish UniFrendly native app and API source"
+          git push origin HEAD:main
