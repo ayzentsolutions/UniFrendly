@@ -6,7 +6,6 @@
     "version": "0.1.0",
     "orientation": "portrait",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "plugins": [
       "expo-router",
       ["expo-secure-store", { "configureAndroidBackup": true, "faceIDPermission": "Allow UniFrendly to protect your account session." }],
