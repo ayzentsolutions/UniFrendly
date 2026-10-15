@@ -3,7 +3,7 @@ on:
   push:
     branches: [main]
     paths:
-      - "bootstrap/unifrendly-source.tar.xz.b64"
+      - "bootstrap/part-09.b64"
 permissions:
   contents: write
 jobs:
@@ -19,7 +19,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          base64 --decode bootstrap/unifrendly-source.tar.xz.b64 > /tmp/unifrendly-source.tar.xz
+          cat bootstrap/part-*.b64 | base64 --decode > /tmp/unifrendly-source.tar.xz
           tar -xJf /tmp/unifrendly-source.tar.xz -C .
           rm -rf bootstrap
           rm -f .github/workflows/unpack-bootstrap.yml
