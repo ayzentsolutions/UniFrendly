@@ -9,6 +9,14 @@ import { registerRoutes } from './routes/index.js';
 import { AppError } from './utils/errors.js';
 
 export async function buildApp(): Promise<FastifyInstance> {
+  const databaseRole = await pool.query<{ rolsuper: boolean; rolbypassrls: boolean }>(
+    'SELECT rolsuper, rolbypassrls FROM pg_roles WHERE rolname = current_user'
+  );
+  const runtimeRole = databaseRole.rows[0];
+  if (!runtimeRole || runtimeRole.rolsuper || runtimeRole.rolbypassrls) {
+    throw new Error('UniFrendly runtime DATABASE_URL must use a non-superuser PostgreSQL role without BYPASSRLS.');
+  }
+
   const app = Fastify({
     logger: {
       level: env.NODE_ENV === 'production' ? 'info' : 'debug',
