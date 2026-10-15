@@ -1,0 +1,53 @@
+name: CI
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  api:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: unifrendly
+          POSTGRES_PASSWORD: unifrendly
+          POSTGRES_DB: unifrendly_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U unifrendly -d unifrendly_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://unifrendly:unifrendly@127.0.0.1:5432/unifrendly_test
+      TEST_DATABASE_URL: postgresql://unifrendly:unifrendly@127.0.0.1:5432/unifrendly_test
+      DATABASE_SSL: 'false'
+      JWT_SECRET: test-only-secret-that-must-never-be-used-in-production
+      APP_ORIGIN: unifrendly://
+      RATE_LIMIT_MAX: '1000'
+      RATE_LIMIT_WINDOW: 1 minute
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run api:build
+      - run: npm run migrate
+      - run: npm run api:test
+  mobile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --no-audit --no-fund
+      - run: npm run mobile:typecheck
+      - run: cd apps/mobile && npx --yes expo-doctor
