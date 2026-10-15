@@ -1,0 +1,25 @@
+{
+  "name": "unifrendly",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Private, college-verified native campus social network",
+  "workspaces": [
+    "apps/api",
+    "apps/mobile"
+  ],
+  "scripts": {
+    "api:dev": "npm --workspace apps/api run dev",
+    "api:build": "npm --workspace apps/api run build",
+    "api:test": "npm --workspace apps/api run test",
+    "mobile:typecheck": "npm --workspace apps/mobile run typecheck",
+    "typecheck": "npm run api:build && npm run mobile:typecheck",
+    "test": "npm run api:test",
+    "migrate": "npm --workspace apps/api run migrate",
+    "seed:dev": "npm --workspace apps/api run seed:dev",
+    "worker": "npm --workspace apps/api run worker",
+    "provision:institution": "npm --workspace apps/api run provision:institution"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,9 @@
+process.env.NODE_ENV ??= 'test';
+process.env.PORT ??= '8080';
+process.env.HOST ??= '127.0.0.1';
+process.env.DATABASE_URL ??= 'postgresql://unifrendly:unifrendly@127.0.0.1:5432/unifrendly_test';
+process.env.DATABASE_SSL ??= 'false';
+process.env.JWT_SECRET ??= 'test-only-secret-that-must-never-be-used-in-production';
+process.env.APP_ORIGIN ??= 'unifrendly://';
+process.env.RATE_LIMIT_MAX ??= '1000';
+process.env.RATE_LIMIT_WINDOW ??= '1 minute';
