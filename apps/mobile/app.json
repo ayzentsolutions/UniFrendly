@@ -24,7 +24,11 @@
       "adaptiveIcon": { "backgroundColor": "#F4F1FF" },
       "permissions": ["POST_NOTIFICATIONS", "READ_CALENDAR", "WRITE_CALENDAR"]
     },
-    "extra": { "router": { "origin": false } },
-    "experiments": { "typedRoutes": true }
+ "extra": {
+  "router": {
+    "origin": false
+  },
+  "eas": {
+    "projectId": "uni-frendly"
   }
 }
