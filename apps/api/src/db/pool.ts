@@ -4,7 +4,9 @@ import { env } from '../config/env.js';
 const { Pool } = pg;
 export const pool = new Pool({
   connectionString: env.DATABASE_URL,
-  ssl: env.DATABASE_SSL ? { rejectUnauthorized: true } : undefined,
+  ssl: env.DATABASE_SSL
+    ? { rejectUnauthorized: true, ...(env.DATABASE_SSL_CA ? { ca: env.DATABASE_SSL_CA.replace(/\\n/g, '\n') } : {}) }
+    : undefined,
   max: Number(process.env.DB_POOL_MAX ?? 10),
   idleTimeoutMillis: 30_000,
   connectionTimeoutMillis: 5_000,
