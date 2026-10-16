@@ -8,27 +8,58 @@
     "userInterfaceStyle": "automatic",
     "plugins": [
       "expo-router",
-      ["expo-secure-store", { "configureAndroidBackup": true, "faceIDPermission": "Allow UniFrendly to protect your account session." }],
-      ["expo-image-picker", { "photosPermission": "UniFrendly uses selected photos when you choose to share a campus post.", "cameraPermission": "UniFrendly uses your camera when you choose to take a post photo.", "microphonePermission": false }],
-      ["expo-notifications", { "defaultChannel": "default", "enableBackgroundRemoteNotifications": false }],
-      ["expo-calendar", { "calendarPermission": "UniFrendly can add campus events to your calendar when you request it." }],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow UniFrendly to protect your account session."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "UniFrendly uses selected photos when you choose to share a campus post.",
+          "cameraPermission": "UniFrendly uses your camera when you choose to take a post photo.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "defaultChannel": "default",
+          "enableBackgroundRemoteNotifications": false
+        }
+      ],
+      [
+        "expo-calendar",
+        {
+          "calendarPermission": "UniFrendly can add campus events to your calendar when you request it."
+        }
+      ],
       "expo-document-picker"
     ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.unifrendly.app",
-      "infoPlist": { "ITSAppUsesNonExemptEncryption": false }
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.unifrendly.app",
-      "adaptiveIcon": { "backgroundColor": "#F4F1FF" },
-      "permissions": ["POST_NOTIFICATIONS", "READ_CALENDAR", "WRITE_CALENDAR"]
+      "adaptiveIcon": {
+        "backgroundColor": "#F4F1FF"
+      },
+      "permissions": [
+        "POST_NOTIFICATIONS",
+        "READ_CALENDAR",
+        "WRITE_CALENDAR"
+      ]
     },
- "extra": {
-  "router": {
-    "origin": false
-  },
-  "eas": {
-    "projectId": "uni-frendly"
+    "extra": {
+      "router": {
+        "origin": false
+      }
+    }
   }
 }
